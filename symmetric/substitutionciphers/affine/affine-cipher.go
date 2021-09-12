@@ -26,36 +26,59 @@ func init() {
 func encrypt(key affineKey, message string) string {
 	var encrypted []byte
 	message = strings.ToLower(message)
+	log.Println(key.A)
+	log.Println(gcd(key.A, 26))
 	if gcd(key.A, 26) != 1 {
-		log.Println("Invalid key. A and 26 have a GCD that is greater than 1 ")
+		log.Println("Invalid key. A and 26 have a GCD that is greater than 1.")
 		return "none"
 	}
 	for _, ch := range message {
 		index := indexes[byte(ch)]
-		log.Print(((key.A * index) + key.B) % 26)
 		encrypted = append(encrypted, alpahbet[((key.A*index)+key.B)%26])
 	}
 	return string(encrypted)
 }
 
-func decrypt(key int, message string) string {
+func decrypt(key affineKey, message string) string {
 	var decrypted []byte
 	message = strings.ToLower(message)
+	aInverse := modInverse(key.A, 26)
 	for _, ch := range message {
 		index := indexes[byte(ch)]
-		decrypted = append(decrypted, alpahbet[(index-key)%26])
+		absIdx := absMod(aInverse*(index-key.B), 26)
+		log.Println(absIdx)
+		decrypted = append(decrypted, alpahbet[absIdx])
 	}
 	return string(decrypted)
 }
 
 func gcd(a int, b int) int {
 
+	var divisor int
 	for d := a; d > 0; d-- {
+		divisor = d
 		if a%d == 0 && b%d == 0 {
-			return d
+			return divisor
 		}
 	}
-	return 1
+	return divisor
+}
+
+func absMod(d, m int) int {
+	var res int = d % m
+	if (res < 0 && m > 0) || (res > 0 && m < 0) {
+		return res + m
+	}
+	return res
+}
+
+func modInverse(a int, m int) int {
+	for i := 0; i < m; i++ {
+		if (a*i)%m == 1 {
+			return i
+		}
+	}
+	return 0
 }
 
 /*
