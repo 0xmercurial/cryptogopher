@@ -26,8 +26,6 @@ func init() {
 func encrypt(key affineKey, message string) string {
 	var encrypted []byte
 	message = strings.ToLower(message)
-	log.Println(key.A)
-	log.Println(gcd(key.A, 26))
 	if gcd(key.A, 26) != 1 {
 		log.Println("Invalid key. A and 26 have a GCD that is greater than 1.")
 		return "none"
@@ -46,22 +44,19 @@ func decrypt(key affineKey, message string) string {
 	for _, ch := range message {
 		index := indexes[byte(ch)]
 		absIdx := absMod(aInverse*(index-key.B), 26)
-		log.Println(absIdx)
 		decrypted = append(decrypted, alpahbet[absIdx])
 	}
 	return string(decrypted)
 }
 
 func gcd(a int, b int) int {
-
-	var divisor int
+	// greatest possible value for divisor is a (smallest number)
 	for d := a; d > 0; d-- {
-		divisor = d
-		if a%d == 0 && b%d == 0 {
-			return divisor
+		if a%d == 0 && b%d == 0 { // test if d divides a and b (mod == 0)
+			return d // if so, return that divisor. else, continue with next smallest divisior candidate
 		}
 	}
-	return divisor
+	return 1
 }
 
 func absMod(d, m int) int {
