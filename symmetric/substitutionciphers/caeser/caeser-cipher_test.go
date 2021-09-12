@@ -1,4 +1,4 @@
-package substitutionciphers
+package caeser
 
 import (
 	"testing"

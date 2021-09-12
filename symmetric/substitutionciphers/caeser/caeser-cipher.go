@@ -1,4 +1,4 @@
-package substitutionciphers
+package caeser
 
 import "strings"
 
@@ -8,7 +8,7 @@ var indexes map[byte]int = map[byte]int{}
 func init() {
 	var ch byte
 	var index int
-	for ch = 'a'; ch < 'z'; ch++ {
+	for ch = 'a'; ch <= 'z'; ch++ {
 		alpahbet = append(alpahbet, ch)
 		indexes[ch] = index
 		index++
