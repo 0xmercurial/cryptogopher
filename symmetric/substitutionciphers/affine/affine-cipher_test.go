@@ -14,7 +14,7 @@ func TestGCD(t *testing.T) {
 	assert.Equal(t, gcd(2, 9), 1)
 	assert.Equal(t, gcd(3, 9), 3)
 	assert.Equal(t, gcd(3, 26), 1)
-	assert.Equal(t, gcd(5, 26), 1)
+	assert.Equal(t, gcd(5, 25), 5)
 }
 
 func TestValidEncrypt(t *testing.T) {
@@ -39,4 +39,8 @@ func TestValidDecrypt(t *testing.T) {
 	assert.Equal(t, encrypt(key, "ATTACK"), "nccnfz")
 	t.Log(decrypt(key, "nccnfz"))
 	assert.Equal(t, decrypt(key, "nccnfz"), "attack")
+}
+
+func TestDecrypt(t *testing.T) {
+	t.Log(decrypt(affineKey{A: 7, B: 22}, "falszztysyjzyjkywjrztyjztyynaryjkyswarztyegyyj"))
 }
